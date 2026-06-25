@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="Theme.Termux" parent="@android:style/Theme.Material.NoActionBar">
+    <style name="Theme.Termux" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:statusBarColor">@color/iwx_bg_primary</item>
         <item name="android:navigationBarColor">@color/iwx_bg_primary</item>
-        <item name="android:colorPrimary">@color/iwx_accent_green</item>
+        <item name="colorPrimary">@color/iwx_accent_green</item>
+        <item name="colorPrimaryVariant">@color/iwx_accent_cyan</item>
+        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorSecondary">@color/iwx_bg_secondary</item>
+        <item name="colorOnSecondary">@color/iwx_text_primary</item>
+        <item name="colorSurface">@color/iwx_bg_secondary</item>
+        <item name="colorOnSurface">@color/iwx_text_primary</item>
         <item name="android:windowBackground">@android:color/black</item>
-        <item name="android:colorAccent">@color/iwx_accent_green</item>
-        <item name="android:alertDialogTheme">@style/TermuxAlertDialogStyle</item>
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">false</item>
@@ -15,21 +19,20 @@
         <item name="android:windowAllowEnterTransitionOverlap">true</item>
     </style>
 
-    <style name="Theme.Termux.Black" parent="@android:style/Theme.Material.NoActionBar">
+    <style name="Theme.Termux.Black" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:statusBarColor">@android:color/black</item>
         <item name="android:navigationBarColor">@android:color/black</item>
-        <item name="android:colorPrimary">@color/iwx_accent_cyan</item>
+        <item name="colorPrimary">@color/iwx_accent_cyan</item>
+        <item name="colorPrimaryVariant">@color/iwx_accent_green</item>
+        <item name="colorOnPrimary">@color/black</item>
         <item name="android:windowBackground">@android:color/black</item>
-        <item name="android:colorAccent">@color/iwx_accent_cyan</item>
         <item name="android:windowActionModeOverlay">true</item>
         <item name="android:windowTranslucentStatus">false</item>
         <item name="android:windowTranslucentNavigation">false</item>
-        <item name="android:windowAllowReturnTransitionOverlap">true</item>
-        <item name="android:windowAllowEnterTransitionOverlap">true</item>
     </style>
 
-    <style name="TermuxAlertDialogStyle" parent="@android:style/Theme.Material.Dialog.Alert">
-        <item name="android:colorAccent">@color/iwx_accent_green</item>
+    <style name="TermuxAlertDialogStyle" parent="Theme.MaterialComponents.DayNight.Dialog.Alert">
+        <item name="colorAccent">@color/iwx_accent_green</item>
         <item name="android:textColorPrimary">@color/iwx_text_primary</item>
     </style>
 

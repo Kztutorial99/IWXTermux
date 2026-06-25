@@ -1,11 +1,16 @@
 <com.termux.app.terminal.TermuxActivityRootView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_termux_root_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:fitsSystemWindows="false">
+
+    <!-- Material 3 TopAppBar via Compose -->
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/top_bar_compose_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <RelativeLayout
         android:id="@+id/activity_termux_root_relative_layout"
@@ -23,6 +28,7 @@
             android:layout_above="@+id/terminal_toolbar_view_pager"
             android:layout_height="match_parent">
 
+            <!-- Terminal View -->
             <com.termux.view.TerminalView
                 android:id="@+id/terminal_view"
                 android:layout_width="match_parent"
@@ -33,9 +39,7 @@
                 android:scrollbars="vertical"
                 tools:ignore="UnusedAttribute" />
 
-            <!-- ══════════════════════════════════════
-                 MODERN SIDE DRAWER
-                 ══════════════════════════════════════ -->
+            <!-- LEFT DRAWER — Session List -->
             <LinearLayout
                 android:id="@+id/left_drawer"
                 android:layout_width="280dp"
@@ -45,7 +49,6 @@
                 android:orientation="vertical"
                 android:elevation="8dp">
 
-                <!-- ── HEADER ─────────────────────── -->
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="130dp"
@@ -112,7 +115,6 @@
                         android:tint="@color/iwx_text_secondary" />
                 </RelativeLayout>
 
-                <!-- ── SESSIONS LABEL ─────────────── -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -125,7 +127,6 @@
                     android:textSize="10sp"
                     android:letterSpacing="0.15" />
 
-                <!-- ── SESSION LIST ───────────────── -->
                 <ListView
                     android:id="@+id/terminal_sessions_list"
                     android:layout_width="match_parent"
@@ -137,7 +138,6 @@
                     android:dividerHeight="0dp"
                     android:scrollbars="none" />
 
-                <!-- ── DIVIDER ────────────────────── -->
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -145,7 +145,6 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp" />
 
-                <!-- ── FOOTER BUTTONS ─────────────── -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -158,16 +157,31 @@
                         android:id="@+id/toggle_keyboard_button"
                         style="@style/DrawerButtonStyle"
                         android:layout_marginEnd="6dp"
-                        android:text="⌨  Keyboard" />
+                        android:text="Keyboard" />
 
                     <Button
                         android:id="@+id/new_session_button"
                         style="@style/DrawerButtonStyle"
                         android:layout_marginStart="6dp"
-                        android:text="＋  New" />
+                        android:text="New Session" />
                 </LinearLayout>
 
             </LinearLayout>
+
+            <!-- RIGHT DRAWER — Quick Actions + IWX Banner (Compose) -->
+            <FrameLayout
+                android:id="@+id/right_drawer"
+                android:layout_width="270dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="end"
+                android:background="@color/iwx_bg_primary"
+                android:elevation="8dp">
+
+                <androidx.compose.ui.platform.ComposeView
+                    android:id="@+id/right_drawer_compose_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+            </FrameLayout>
 
         </androidx.drawerlayout.widget.DrawerLayout>
 

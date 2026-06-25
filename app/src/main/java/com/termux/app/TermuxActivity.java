@@ -2,7 +2,7 @@ package com.termux.app;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
@@ -57,6 +57,9 @@ import com.termux.view.TerminalView;
 import com.termux.view.TerminalViewClient;
 
 import androidx.annotation.NonNull;
+import android.view.Gravity;
+import androidx.compose.ui.platform.ComposeView;
+import com.termux.app.ui.TermuxComposeViews;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -72,7 +75,7 @@ import androidx.viewpager.widget.ViewPager;
  * </ul>
  * about memory leaks.
  */
-public final class TermuxActivity extends Activity implements ServiceConnection {
+public final class TermuxActivity extends AppCompatActivity implements ServiceConnection {
 
     /**
      * The connection to the {@link TermuxService}. Requested in {@link #onCreate(Bundle)} with a call to
@@ -197,6 +200,8 @@ public final class TermuxActivity extends Activity implements ServiceConnection 
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_termux);
+
+        setupComposeViews();
 
         // Load termux shared preferences
         // This will also fail if TermuxConstants.TERMUX_PACKAGE_NAME does not equal applicationId
@@ -911,6 +916,51 @@ public final class TermuxActivity extends Activity implements ServiceConnection 
     }
 
 
+
+    private void setupComposeViews() {
+        androidx.drawerlayout.widget.DrawerLayout drawer = findViewById(R.id.drawer_layout);
+
+        ComposeView topBarView = findViewById(R.id.top_bar_compose_view);
+        TermuxComposeViews.setupTopBar(
+            topBarView,
+            () -> {
+                if (drawer != null) drawer.openDrawer(Gravity.START);
+            },
+            this::openRightDrawer,
+            () -> {
+                if (mTermuxTerminalViewClient != null)
+                    mTermuxTerminalViewClient.onToggleSoftKeyboardRequest();
+            }
+        );
+
+        ComposeView rightDrawerView = findViewById(R.id.right_drawer_compose_view);
+        TermuxComposeViews.setupRightDrawer(
+            rightDrawerView,
+            () -> {
+                if (mTermuxTerminalSessionClient != null)
+                    mTermuxTerminalSessionClient.addNewSession(false, null);
+                if (drawer != null) drawer.closeDrawer(Gravity.END);
+            },
+            () -> {
+                Intent settingsIntent = new Intent(this, com.termux.app.activities.SettingsActivity.class);
+                startActivity(settingsIntent);
+            },
+            () -> {
+                if (mTermuxTerminalViewClient != null)
+                    mTermuxTerminalViewClient.onToggleSoftKeyboardRequest();
+            },
+            this::toggleTerminalToolbar,
+            () -> {
+                if (mTermuxTerminalViewClient != null)
+                    mTermuxTerminalViewClient.shareSessionTranscript();
+            }
+        );
+    }
+
+    public void openRightDrawer() {
+        androidx.drawerlayout.widget.DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        if (drawer != null) drawer.openDrawer(Gravity.END);
+    }
 
     public static void startTermuxActivity(@NonNull final Context context) {
         context.startActivity(newInstance(context));
