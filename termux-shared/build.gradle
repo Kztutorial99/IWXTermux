@@ -3,6 +3,7 @@ apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion project.properties.compileSdkVersion.toInteger()
+    namespace "com.termux.shared"
 
     dependencies {
         implementation 'androidx.appcompat:appcompat:1.3.1'
