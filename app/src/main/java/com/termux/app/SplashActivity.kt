@@ -11,7 +11,9 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,13 +27,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 
+private val SplashColorScheme = darkColorScheme(
+    primary = Color(0xFF00E676),
+    background = Color(0xFF0D1117),
+    surface = Color(0xFF161B22),
+    onBackground = Color.White,
+    onSurface = Color.White,
+)
+
 class SplashActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            IWXSplashScreen {
-                startActivity(Intent(this, TermuxActivity::class.java))
-                finish()
+            MaterialTheme(colorScheme = SplashColorScheme) {
+                IWXSplashScreen {
+                    startActivity(Intent(this, TermuxActivity::class.java))
+                    finish()
+                }
             }
         }
     }
