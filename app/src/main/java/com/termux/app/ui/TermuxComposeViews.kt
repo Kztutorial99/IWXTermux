@@ -1,7 +1,21 @@
 package com.termux.app.ui
 
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+
+private val IWXColorScheme = darkColorScheme(
+    primary = Color(0xFF00E676),
+    secondary = Color(0xFF00BCD4),
+    background = Color(0xFF0D1117),
+    surface = Color(0xFF161B22),
+    onPrimary = Color.Black,
+    onSecondary = Color.Black,
+    onBackground = Color.White,
+    onSurface = Color.White,
+)
 
 object TermuxComposeViews {
 
@@ -15,12 +29,14 @@ object TermuxComposeViews {
         onKeyboard: Runnable
     ) {
         view.setContent {
-            TermuxTopBar(
-                sessionName = sessionName.value,
-                onMenuClick = { onMenu.run() },
-                onRightDrawerClick = { onRightDrawer.run() },
-                onKeyboardClick = { onKeyboard.run() }
-            )
+            MaterialTheme(colorScheme = IWXColorScheme) {
+                TermuxTopBar(
+                    sessionName = sessionName.value,
+                    onMenuClick = { onMenu.run() },
+                    onRightDrawerClick = { onRightDrawer.run() },
+                    onKeyboardClick = { onKeyboard.run() }
+                )
+            }
         }
     }
 
@@ -34,13 +50,15 @@ object TermuxComposeViews {
         onShareOutput: Runnable
     ) {
         view.setContent {
-            RightDrawerContent(
-                onNewSession = { onNewSession.run() },
-                onSettings = { onSettings.run() },
-                onToggleKeyboard = { onToggleKeyboard.run() },
-                onToggleToolbar = { onToggleToolbar.run() },
-                onShareOutput = { onShareOutput.run() }
-            )
+            MaterialTheme(colorScheme = IWXColorScheme) {
+                RightDrawerContent(
+                    onNewSession = { onNewSession.run() },
+                    onSettings = { onSettings.run() },
+                    onToggleKeyboard = { onToggleKeyboard.run() },
+                    onToggleToolbar = { onToggleToolbar.run() },
+                    onShareOutput = { onShareOutput.run() }
+                )
+            }
         }
     }
 
