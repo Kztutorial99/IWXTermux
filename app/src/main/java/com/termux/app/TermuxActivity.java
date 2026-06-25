@@ -249,8 +249,11 @@ public final class TermuxActivity extends AppCompatActivity implements ServiceCo
 
         // Attempt to bind to the service, this will call the {@link #onServiceConnected(ComponentName, IBinder)}
         // callback if it succeeds.
-        if (!bindService(serviceIntent, this, 0))
-            throw new RuntimeException("bindService() failed");
+        if (!bindService(serviceIntent, this, 0)) {
+            Logger.logError(LOG_TAG, "bindService() failed - service may not be available");
+            mIsInvalidState = true;
+            return;
+        }
 
         // Send the {@link TermuxConstants#BROADCAST_TERMUX_OPENED} broadcast to notify apps that Termux
         // app has been opened.
