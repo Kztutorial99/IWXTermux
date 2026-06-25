@@ -1,3 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="iwx_bg_primary">#0D1117</color>
+    <color name="iwx_bg_secondary">#161B22</color>
+    <color name="iwx_bg_drawer">#0D1117</color>
+    <color name="iwx_bg_drawer_header">#161B22</color>
+    <color name="iwx_accent_green">#00E676</color>
+    <color name="iwx_accent_cyan">#00BCD4</color>
+    <color name="iwx_text_primary">#FFFFFF</color>
+    <color name="iwx_text_secondary">#8B949E</color>
+    <color name="iwx_text_hint">#484F58</color>
+    <color name="iwx_divider">#21262D</color>
+    <color name="iwx_session_active">#00E676</color>
+    <color name="iwx_session_inactive">#30363D</color>
+    <color name="iwx_btn_bg">#21262D</color>
+    <color name="iwx_selection_bg">#2600E676</color>
 </resources>

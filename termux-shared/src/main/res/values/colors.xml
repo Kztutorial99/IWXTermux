@@ -1,18 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background_markdown_code_inline">#1F000000</color>
-    <color name="background_markdown_code_block">#0F000000</color>
+    <color name="background_markdown_code_inline">#1F00E676</color>
+    <color name="background_markdown_code_block">#0F00E676</color>
 
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="red_400">#FF0000</color>
-    <color name="red_800">#C4001D</color>
+    <color name="red_400">#00E676</color>
+    <color name="red_800">#00BCD4</color>
 
-    <color name="grey_200">#EEEEEE</color>
-    <color name="grey_800">#424242</color>
-    <color name="grey_900">#212121</color>
+    <color name="grey_200">#21262D</color>
+    <color name="grey_800">#8B949E</color>
+    <color name="grey_900">#161B22</color>
 
-    <color name="red_error">#DC143C</color>
-    <color name="red_error_link">#FC143C</color>
+    <color name="red_error">#FF5252</color>
+    <color name="red_error_link">#FF7070</color>
+
+    <color name="iwx_bg_primary">#0D1117</color>
+    <color name="iwx_bg_secondary">#161B22</color>
+    <color name="iwx_accent_green">#00E676</color>
+    <color name="iwx_accent_cyan">#00BCD4</color>
+    <color name="iwx_text_primary">#FFFFFF</color>
+    <color name="iwx_text_secondary">#8B949E</color>
+    <color name="iwx_text_hint">#484F58</color>
+    <color name="iwx_divider">#21262D</color>
+    <color name="iwx_session_active">#00E676</color>
+    <color name="iwx_session_inactive">#30363D</color>
+    <color name="iwx_btn_bg">#21262D</color>
+    <color name="iwx_selection_bg">#2600E676</color>
 </resources>

@@ -1,9 +1,35 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/session_title"
-    android:layout_width="fill_parent"
-    android:layout_height="?android:attr/listPreferredItemHeight"
-    android:background="@drawable/session_background_selected"
-    android:ellipsize="marquee"
-    android:gravity="start|center_vertical"
-    android:padding="6dip"
-    android:textSize="14sp" />
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="52dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:background="@drawable/session_item_bg">
+
+    <View
+        android:id="@+id/session_active_dot"
+        android:layout_width="8dp"
+        android:layout_height="8dp"
+        android:background="@drawable/dot_inactive"
+        android:layout_marginEnd="14dp" />
+
+    <TextView
+        android:id="@+id/session_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textColor="@color/iwx_text_primary"
+        android:textSize="14sp" />
+
+    <View
+        android:id="@+id/session_selected_bar"
+        android:layout_width="3dp"
+        android:layout_height="20dp"
+        android:background="@drawable/dot_active"
+        android:visibility="gone" />
+
+</LinearLayout>

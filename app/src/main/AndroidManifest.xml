@@ -88,13 +88,13 @@
             android:label="@string/application_name"
             android:parentActivityName=".app.TermuxActivity"
             android:resizeableActivity="true"
-            android:theme="@android:style/Theme.Material.Light.DarkActionBar" />
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
 
         <activity
             android:name=".app.activities.SettingsActivity"
             android:exported="true"
             android:label="@string/title_activity_termux_settings"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar" />
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
 
         <activity
             android:name=".shared.activities.ReportActivity"

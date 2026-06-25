@@ -48,19 +48,12 @@ public class TermuxSessionsListViewController extends ArrayAdapter<TermuxSession
         }
 
         TextView sessionTitleView = sessionRowView.findViewById(R.id.session_title);
+        View dotView = sessionRowView.findViewById(R.id.session_active_dot);
 
         TerminalSession sessionAtRow = getItem(position).getTerminalSession();
         if (sessionAtRow == null) {
             sessionTitleView.setText("null session");
             return sessionRowView;
-        }
-
-        boolean isUsingBlackUI = mActivity.getProperties().isUsingBlackUI();
-
-        if (isUsingBlackUI) {
-            sessionTitleView.setBackground(
-                ContextCompat.getDrawable(mActivity, R.drawable.session_background_black_selected)
-            );
         }
 
         String name = sessionAtRow.mSessionName;
@@ -79,14 +72,31 @@ public class TermuxSessionsListViewController extends ArrayAdapter<TermuxSession
 
         boolean sessionRunning = sessionAtRow.isRunning();
 
+        // Update dot indicator color
+        if (dotView != null) {
+            if (sessionRunning) {
+                dotView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.dot_active));
+            } else {
+                dotView.setBackground(ContextCompat.getDrawable(mActivity, R.drawable.dot_inactive));
+            }
+        }
+
+        // Strikethrough for dead sessions
         if (sessionRunning) {
             sessionTitleView.setPaintFlags(sessionTitleView.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
         } else {
             sessionTitleView.setPaintFlags(sessionTitleView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
         }
-        int defaultColor = isUsingBlackUI ? Color.WHITE : Color.BLACK;
-        int color = sessionRunning || sessionAtRow.getExitStatus() == 0 ? defaultColor : Color.RED;
+
+        // Text color: white normally, red on error exit
+        int color;
+        if (!sessionRunning && sessionAtRow.getExitStatus() != 0) {
+            color = Color.parseColor("#FF5252");
+        } else {
+            color = Color.WHITE;
+        }
         sessionTitleView.setTextColor(color);
+
         return sessionRowView;
     }
 
