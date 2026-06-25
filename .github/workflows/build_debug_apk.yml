@@ -26,17 +26,55 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build Debug APK
-        run: ./gradlew assembleDebug --no-daemon --stacktrace
+      - name: Set version tag
+        run: |
+          SHORT_SHA="${GITHUB_SHA::7}"
+          VERSION_NAME=$(grep -m 1 'versionName' app/build.gradle | sed 's/.*"\(.*\)".*/\1/')
+          echo "APK_VERSION_TAG=v${VERSION_NAME}+${SHORT_SHA}-debug" >> $GITHUB_ENV
+          echo "APK_DIR=app/build/outputs/apk/debug" >> $GITHUB_ENV
 
-      - name: Upload Debug APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: IWXTermux-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
-          retention-days: 30
+      - name: Build Debug APK
+        env:
+          TERMUX_APK_VERSION_TAG: ${{ env.APK_VERSION_TAG }}
+          TERMUX_SPLIT_APKS_FOR_DEBUG_BUILDS: "1"
+        run: ./gradlew assembleDebug --no-daemon
 
       - name: Show APK info
         run: |
           echo "=== APK Files ==="
-          find app/build/outputs/apk -name "*.apk" -exec ls -lh {} \;
+          find app/build/outputs/apk/debug -name "*.apk" -exec ls -lh {} \;
+
+      - name: Upload APK - universal (semua device)
+        uses: actions/upload-artifact@v4
+        with:
+          name: IWXTermux-${{ env.APK_VERSION_TAG }}_universal
+          path: ${{ env.APK_DIR }}/*_universal.apk
+          retention-days: 30
+
+      - name: Upload APK - arm64-v8a (64-bit modern)
+        uses: actions/upload-artifact@v4
+        with:
+          name: IWXTermux-${{ env.APK_VERSION_TAG }}_arm64-v8a
+          path: ${{ env.APK_DIR }}/*_arm64-v8a.apk
+          retention-days: 30
+
+      - name: Upload APK - armeabi-v7a (32-bit)
+        uses: actions/upload-artifact@v4
+        with:
+          name: IWXTermux-${{ env.APK_VERSION_TAG }}_armeabi-v7a
+          path: ${{ env.APK_DIR }}/*_armeabi-v7a.apk
+          retention-days: 30
+
+      - name: Upload APK - x86_64 (emulator 64-bit)
+        uses: actions/upload-artifact@v4
+        with:
+          name: IWXTermux-${{ env.APK_VERSION_TAG }}_x86_64
+          path: ${{ env.APK_DIR }}/*_x86_64.apk
+          retention-days: 30
+
+      - name: Upload APK - x86 (emulator 32-bit)
+        uses: actions/upload-artifact@v4
+        with:
+          name: IWXTermux-${{ env.APK_VERSION_TAG }}_x86
+          path: ${{ env.APK_DIR }}/*_x86.apk
+          retention-days: 30
