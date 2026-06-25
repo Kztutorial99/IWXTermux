@@ -29,14 +29,20 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
+      - name: Set version vars
+        run: |
+          RAW_TAG="${{ github.ref_name || inputs.tag }}"
+          VERSION_NAME="${RAW_TAG#v}"
+          echo "RELEASE_TAG=$RAW_TAG" >> $GITHUB_ENV
+          echo "TERMUX_APP_VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+          echo "TERMUX_APK_VERSION_TAG=$RAW_TAG" >> $GITHUB_ENV
+
       - name: Decode Keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > app/release.jks
 
       - name: Build Release APK
         env:
-          TERMUX_APP_VERSION_NAME: ${{ github.ref_name || inputs.tag }}
-          TERMUX_APK_VERSION_TAG: ${{ github.ref_name || inputs.tag }}
           KEYSTORE_FILE: release.jks
           KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
           KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
@@ -56,26 +62,26 @@ jobs:
       - name: Upload Signed APK as Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: IWXTermux-release-signed-${{ github.ref_name || inputs.tag }}
+          name: IWXTermux-release-signed-${{ env.RELEASE_TAG }}
           path: ${{ steps.sign_apk.outputs.signedReleaseFile }}
           retention-days: 90
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ github.ref_name || inputs.tag }}
-          name: IWXTermux ${{ github.ref_name || inputs.tag }}
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: IWXTermux ${{ env.RELEASE_TAG }}
           body: |
-            ## IWXTermux ${{ github.ref_name || inputs.tag }}
-            
+            ## IWXTermux ${{ env.RELEASE_TAG }}
+
             ### Download
             Pilih APK sesuai arsitektur device kamu:
             - `universal` → untuk semua device (ukuran lebih besar)
             - `arm64-v8a` → untuk device 64-bit modern
             - `armeabi-v7a` → untuk device 32-bit
-            
+
             ### Changelog
-            Release otomatis dari tag ${{ github.ref_name || inputs.tag }}
+            Release otomatis dari tag ${{ env.RELEASE_TAG }}
           draft: false
           prerelease: false
           files: app/build/outputs/apk/release/*.apk
