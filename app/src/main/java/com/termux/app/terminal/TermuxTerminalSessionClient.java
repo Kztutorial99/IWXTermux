@@ -3,6 +3,7 @@ package com.termux.app.terminal;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.ClipData;
+import com.termux.app.ui.TermuxComposeViews;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -124,6 +125,9 @@ public class TermuxTerminalSessionClient extends TermuxTerminalSessionClientBase
             // probably consciously caused the title change to change in the current session
             // and don't want an annoying toast for that.
             mActivity.showToast(toToastTitle(updatedSession), true);
+        } else {
+            // Title changed for current session — update TopBar
+            updateTopBarSessionName(updatedSession);
         }
 
         termuxSessionListNotifyUpdated();
@@ -276,10 +280,23 @@ public class TermuxTerminalSessionClient extends TermuxTerminalSessionClientBase
             notifyOfSessionChange();
         }
 
+        // Update TopBar session name
+        updateTopBarSessionName(session);
+
         // We call the following even when the session is already being displayed since config may
         // be stale, like current session not selected or scrolled to.
         checkAndScrollToSession(session);
         updateBackgroundColor();
+    }
+
+    private void updateTopBarSessionName(TerminalSession session) {
+        if (session == null) return;
+        String name = session.mSessionName;
+        if (name == null || name.isEmpty()) {
+            String title = session.getTitle();
+            name = (title != null && !title.isEmpty()) ? title : "Terminal";
+        }
+        TermuxComposeViews.updateSessionName(name);
     }
 
     void notifyOfSessionChange() {
